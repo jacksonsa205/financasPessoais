@@ -1,28 +1,84 @@
-html {
-    height: 100%;
-    width: 100%;
-  }
-  
-  body {
-    display: table;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-  }
-  
-  .row {
-    display: table-row;
-    height: 75%;
-    background-color: #282828;
-    text-align: center;
-  }
-  
-  .h1 {
-    font-size: 54px;
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(to right, #FFFFFF 0%, #FF6600 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    padding-top: 100px;
-  }
+.card {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.card-header {
+  font-size: 1.2rem;
+  padding: 1.2rem 1.5rem;
+  border-bottom: 2px solid rgba(255,255,255,0.15);
+}
+
+.table thead th {
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  padding: 0.9rem 0.9rem;
+  vertical-align: middle;
+}
+
+.table td {
+  padding: 0.9rem 0.9rem;
+  vertical-align: middle;
+  border-color: rgba(0,0,0,0.05);
+}
+
+.total-row-gastos {
+  background-color: rgba(220,53,69,0.08);
+  border-top: 2px solid #dc3545 !important;
+}
+
+.total-row-entradas {
+  background-color: rgba(40,167,69,0.08);
+  border-top: 2px solid #28a745 !important;
+}
+
+.total-row-investimentos {
+  background-color: rgba(23,162,184,0.08);
+  border-top: 2px solid #17a2b8 !important;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0,0,0,0.03);
+}
+
+.fas {
+  font-size: 1.4rem;
+  opacity: 0.9;
+}
+
+.pr-4 { padding-right: 1.5rem!important; }
+.pl-4 { padding-left: 1.5rem!important; }
+
+/* Modal Customizado */
+.modal-content {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+  background: linear-gradient(to right, #4e73df, #224abe);
+  color: white;
+  border-radius: 12px 12px 0 0;
+}
+
+.modal-title {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.modal-body .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.modal-body label {
+  font-weight: 500;
+  color: #4a4a4a;
+}
