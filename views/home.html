@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="alphasec">
+    <meta name="author" content="alphasec">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Controle Financeiro</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  </head>
+  <body class="bg-light">
+
+    <!-- Navbar -->
+    <div id="navbar-container"></div>
+
+    <div class="container-fluid mt-4">
+      <div class="row mb-4">
+        <div class="col-12 text-center">
+          <h1 class="h1 text-primary font-weight-bold">Dashboard</h1>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Quadro de Gastos -->
+        <div class="col-md-4 mb-4">
+          <div class="card border-danger shadow-lg">
+            <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center py-3">
+              <h5 class="card-title mb-0">
+                <i class="fas fa-chart-pie"></i>Despesas
+              </h5>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-sm table-hover mb-0">
+                  <thead class="bg-light">
+                    <tr>
+                      <th class="border-0 pl-4">Categoria</th>
+                      <th class="border-0 text-right pr-4">Média</th>
+                      <th class="border-0 text-right pr-4">Total</th>
+                      <th class="border-0 text-right pr-4">Share</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tabela-despesas"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quadro de Entradas -->
+        <div class="col-md-4 mb-4">
+          <div class="card border-entradas shadow-lg"> <!-- Alterado de border-success -->
+            <div class="card-header bg-entradas text-white d-flex justify-content-between align-items-center py-3"> <!-- Alterado de bg-success -->
+              <h5 class="card-title mb-0">
+                <i class="fas fa-chart-line"></i>Receitas
+              </h5>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-sm table-hover mb-0">
+                  <thead class="bg-light">
+                    <tr>
+                      <th class="border-0 pl-4">Categoria</th>
+                      <th class="border-0 text-right pr-4">Média</th>
+                      <th class="border-0 text-right pr-4">Total</th>
+                      <th class="border-0 text-right pr-4">Share</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tabela-receitas"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quadro de Investimentos -->
+        <div class="col-md-4 mb-4">
+          <div class="card border-info shadow-lg">
+            <div class="card-header bg-info text-white d-flex justify-content-between align-items-center py-3">
+              <h5 class="card-title mb-0">
+                <i class="fas fa-wallet"></i>Investimentos
+              </h5>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-sm table-hover mb-0">
+                  <thead class="bg-light">
+                    <tr>
+                      <th class="border-0 pl-4">Categoria</th>
+                      <th class="border-0 text-right pr-4">Média</th>
+                      <th class="border-0 text-right pr-4">Total</th>
+                      <th class="border-0 text-right pr-4">Share</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tabela-investimentos"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-12 text-center">
+          <span class="text-muted small">alphasec © 2024. Todos os direitos reservados.</span>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/scripts/home.js"></script>
+  </body>
+</html>

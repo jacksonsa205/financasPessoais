@@ -1,0 +1,112 @@
+/* Novos estilos adicionados */
+.table {
+  font-size: 0.85rem; /* Tamanho geral reduzido */
+}
+
+.table thead th {
+  font-size: 0.8rem; /* Tamanho reduzido para cabeçalhos */
+  padding: 0.6rem 0.8rem; /* Padding reduzido */
+  white-space: nowrap; /* Impede quebra de linha */
+}
+
+.table td {
+  padding: 0.6rem 0.8rem; /* Padding reduzido */
+  line-height: 1.3; /* Espaçamento entre linhas ajustado */
+}
+
+/* Mantive seus estilos existentes e adicionei: */
+
+.card {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.card-header {
+  font-size: 1.1rem; /* Reduzi levemente */
+  padding: 1rem 1.2rem; /* Padding ajustado */
+  border-bottom: 2px solid rgba(255,255,255,0.15);
+}
+
+/* Ajustes para dispositivos móveis */
+@media (max-width: 768px) {
+  .table {
+    font-size: 0.8rem;
+  }
+  
+  .table thead th {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.6rem;
+  }
+  
+  .table td {
+    padding: 0.5rem 0.6rem;
+  }
+  
+  .card-header {
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+  }
+}
+
+/* Mantive o restante do seu CSS original */
+.total-row-gastos {
+  background-color: rgba(220,53,69,0.08);
+  border-top: 2px solid #dc3545 !important;
+}
+
+.total-row-entradas {
+  background-color: rgba(21, 96, 130, 0.08);
+  border-top: 2px solid #156082 !important;
+}
+
+.border-entradas {
+  border-color: #156082 !important;
+}
+
+.bg-entradas {
+  background-color: #156082 !important;
+}
+
+.text-entradas {
+  color: #156082 !important;
+}
+
+.total-row-investimentos {
+  background-color: rgba(23,162,184,0.08);
+  border-top: 2px solid #17a2b8 !important;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0,0,0,0.03);
+}
+
+.fas {
+  font-size: 1.2rem; /* Reduzi levemente */
+  margin-right: 8px; /* Ajuste fino */
+  opacity: 0.9;
+}
+
+.pr-4 { padding-right: 1.2rem!important; }
+.pl-4 { padding-left: 1.2rem!important; }
+
+
+.table tbody td.text-center {
+  font-style: italic;
+  color: #6c757d;
+  padding: 15px !important; /* Reduzi o padding */
+}
+
+/* Adicionei esta regra para células com texto longo */
+.table td {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

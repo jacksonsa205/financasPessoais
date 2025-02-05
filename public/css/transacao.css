@@ -1,0 +1,41 @@
+/* Adicione estas classes */
+.tipo-despesa {
+    background-color: #dc3545;
+    color: white !important;
+    border-radius: 8px;
+    padding: 4px 8px;
+    display: inline-block;
+  }
+  
+  .tipo-receita {
+    background-color: #156082; /* Cor do seu tema */
+    color: white !important;
+    border-radius: 8px;
+    padding: 4px 8px;
+    display: inline-block;
+  }
+  
+  .tipo-investimento {
+    background-color: #17a2b8;
+    color: white !important;
+    border-radius: 8px;
+    padding: 4px 8px;
+    display: inline-block;
+  }
+
+
+  .status-pendente {
+    background-color: #dc3545;
+    color: white !important;
+    border-radius: 8px;
+    padding: 4px 8px;
+    display: inline-block;
+  }
+  
+  .status-pago {
+    background-color: #28a745;
+    color: white !important;
+    border-radius: 8px;
+    padding: 4px 8px;
+    display: inline-block;
+  }
