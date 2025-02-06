@@ -7,74 +7,67 @@ function loadNavbar() {
       .catch(error => console.error('Erro ao carregar a navbar:', error));
 }
 
-// Chama a função ao carregar a página
 window.onload = loadNavbar;
 
-
-// Adicione esta variável global
 let todasTransacoes = [];
 
-// Função para extrair anos únicos das transações
 function extrairAnosDisponiveis() {
   const anos = new Set();
-  
-  todasTransacoes.forEach(transacao => {
-    // Converter a data para objeto Date
-    const date = new Date(transacao.data);
-    
-    // Verificar se a data é válida
-    if (!isNaN(date.getTime())) {
-      const ano = date.getFullYear();
-      anos.add(ano);
-    }
-  });
-  
-  // Converter para array e ordenar
-  return Array.from(anos)
-    .map(Number)
-    .filter(ano => !isNaN(ano))
-    .sort((a, b) => b - a);
+  todasTransacoes.forEach(t => anos.add(t.ano));
+  return Array.from(anos).sort((a, b) => b - a);
 }
 
-// Função para popular o seletor de anos
 function popularFiltroAnos() {
   const select = document.getElementById('filtro-ano');
   const anos = extrairAnosDisponiveis();
-  
-  // Limpar opções existentes
+  const anoCorrente = new Date().getFullYear(); // Ano atual
+
   select.innerHTML = '<option value="">Todos os anos</option>';
   
   anos.forEach(ano => {
-    // Verificação adicional
     if (!isNaN(ano) && ano.toString().length === 4) {
       const option = document.createElement('option');
       option.value = ano;
       option.textContent = ano;
+      
+      // Seleciona o ano corrente por padrão
+      if (ano === anoCorrente) {
+        option.selected = true;
+      }
+      
       select.appendChild(option);
     }
   });
+
+  // Força a atualização imediata após selecionar o ano corrente
+  atualizarDados();
 }
 
-// Função para filtrar transações por ano
 function filtrarPorAno(ano) {
   if (!ano) return todasTransacoes;
-  return todasTransacoes.filter(transacao => {
-    return new Date(transacao.data).getFullYear() === parseInt(ano);
-  });
+  return todasTransacoes.filter(transacao => transacao.ano.toString() === ano);
 }
 
-
-
-// Função principal modificada
 async function carregarDados() {
   try {
     const response = await fetch("/transacao/buscar");
-    todasTransacoes = await response.json();
+    const rawData = await response.json();
     
-    // Popular o filtro de anos
+    todasTransacoes = rawData.map(t => {
+      // Extrai o ano diretamente do campo data2
+      const data = new Date(t.data2);
+      return {
+        ...t,
+        ano: data.getFullYear() // Extrai o ano da data2
+      };
+    }).filter(t => {
+      const anoValido = !isNaN(t.ano) && t.ano >= 2000;
+      if (!anoValido) console.warn('Ano inválido ou data2 incorreta:', t);
+      return anoValido;
+    });
+
+    console.log('Dados processados com data2:', todasTransacoes);
     popularFiltroAnos();
-    
-    // Carregar dados inicialmente com todos os anos
     atualizarDados();
     
   } catch (error) {
@@ -82,11 +75,27 @@ async function carregarDados() {
   }
 }
 
-// Função para atualizar os dados com base no filtro
+// Função para debug: mostra os anos e datas2 no console
+function debugDatas() {
+  console.log('Debug datas2:',
+    todasTransacoes.map(t => ({
+      id: t.id,
+      data2: t.data2,
+      ano: t.ano
+    }))
+  );
+}
+
+// Modifique a função de atualização para incluir o debug
 function atualizarDados() {
+  debugDatas(); // Mostra dados no console para verificação
+  
   const anoSelecionado = document.getElementById('filtro-ano').value;
   const transacoesFiltradas = filtrarPorAno(anoSelecionado);
 
+  console.log(`Filtrando por ano: ${anoSelecionado}`, transacoesFiltradas);
+  
+  // Restante da função mantido igual...
   const despesas = processarDados(transacoesFiltradas, "Despesa");
   const receitas = processarDados(transacoesFiltradas, "Receita");
   const investimentos = processarDados(transacoesFiltradas, "Investimento");
