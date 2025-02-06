@@ -138,15 +138,22 @@ function processarDados(transacoes, tipo) {
 }
 
 function calcularCorShare(share, tipo) {
-  // Escala de cores com HSL (Matiz, Saturação, Luminosidade)
-  if (tipo === 'Despesas') {
-    const lightness = 100 - (Math.min(share, 50) * 2); // Quanto maior o share, mais escuro (vermelho)
-    return `hsl(0, 70%, ${lightness}%)`;
-  } else {
-    const lightness = 100 - (Math.min(share, 50) * 1.5); // Verde mais suave
-    return `hsl(120, 70%, ${lightness}%)`;
-  }
+  // Definição das cores base para cada tipo
+  const coresBase = {
+    'Despesas': { h: 0, s: 71, l: 90 },  // Tom claro de #dc3545 (Vermelho)
+    'Receitas': { h: 188, s: 67, l: 85 }, // Tom claro de #17a2b8 (Azul esverdeado)
+    'Investimentos': { h: 45, s: 100, l: 88 } // Tom claro de #ffc107 (Amarelo)
+  };
+
+  const cor = coresBase[tipo] || coresBase['Receitas']; // Se não reconhecer, usa Receitas como padrão
+
+  // Ajuste da luminosidade: quanto maior o share, mais escuro (diminuindo a luminosidade)
+  const lightness = Math.max(cor.l - (Math.min(share, 50) * 0.7), 40);
+
+  return `hsl(${cor.h}, ${cor.s}%, ${lightness}%)`;
 }
+
+
 
 function preencherQuadro(dados, titulo, cardClass, textClass) {
   const elementoId = `tabela-${titulo.toLowerCase()}`;
@@ -172,11 +179,14 @@ function preencherQuadro(dados, titulo, cardClass, textClass) {
     // Cor do share baseada no tipo
     const corShare = calcularCorShare(categoria.share, titulo);
     
+    // Ajuste para a cor do texto em investimentos
+    const textColorClass = titulo === "Investimentos" ? "text-warning" : textClass; 
+
     html += `
       <tr>
         <td class="pl-4 sticky-col">${categoria.nome}</td>
         <td class="text-right pr-4">R$ ${categoria.media.toFixed(2)}</td>
-        <td class="text-right pr-4 ${textClass}">R$ ${categoria.total.toFixed(2)}</td>
+        <td class="text-right pr-4 ${textColorClass}">R$ ${categoria.total.toFixed(2)}</td>
         <td class="text-right pr-4" style="background-color: ${corShare}">
           ${categoria.share.toFixed(2)}%
         </td>
@@ -185,18 +195,19 @@ function preencherQuadro(dados, titulo, cardClass, textClass) {
   });
 
   // Linha de total
+  const totalTextColorClass = titulo === "Investimentos" ? "text-warning" : textClass;
+
   html += `
     <tr class="font-weight-bold">
       <td class="border-top pl-4 sticky-col">Total</td>
       <td class="text-right border-top pr-4">R$ ${totalMedia.toFixed(2)}</td>
-      <td class="text-right border-top pr-4 ${textClass}">R$ ${totalGeral.toFixed(2)}</td>
+      <td class="text-right border-top pr-4 ${totalTextColorClass}">R$ ${totalGeral.toFixed(2)}</td>
       <td class="text-right border-top pr-4">100%</td>
     </tr>
   `;
 
   tabela.innerHTML = html;
 }
-
 // Adicione o listener para o evento de mudança no seletor
 document.getElementById('filtro-ano').addEventListener('change', atualizarDados);
 
