@@ -110,3 +110,17 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.sticky-col {
+  position: sticky;
+  left: 0;
+  background: white;
+  z-index: 1;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.table-responsive {
+  overflow-x: auto;
+  max-width: calc(100vw - 50px);
+}
+

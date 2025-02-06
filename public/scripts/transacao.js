@@ -12,20 +12,19 @@ window.onload = loadNavbar;
 
 const categorias = {
     "Despesa": [
-        "ACADEMIA", "AÇOUGUE", "AGUA", "ASSINATURAS", "COMIDA/IFOOD",
-        "COMPRAS DESNECESSARIAS", "CORTE DE CABELO", "DIVIDAS ATRASADAS",
-        "EDUCAÇÃO", "EMPRESTIMOS", "FINANCIAMENTO", "GAS", "GASOLINA",
+        "ACADEMIA", "AÇOUGUE", "AGUA", "ASSINATURAS", "COMIDA",
+        "COMPRAS", "CABELO", "DIVIDAS",
+        "EDUCAÇÃO", "EMPRESTIMOS", "MOTO","CARRO", "GAS", "GASOLINA",
         "INTERNET", "LAZER", "LUZ", "MERCADO", "PADARIA",
-        "RAÇÃO DOS CACHORROS", "VESTUARIO"
+        "CACHORROS", "VESTUARIO"
     ],
     "Receita": [
-        "13º SALARIO", "ADICIONAIS EMPRESAS", "PROVENTOS",
-        "RENDA EXTRA", "RESERVA EMERGENCIA", "SALARIO",
-        "VALE ALIMENTAÇÃO", "VALE REFEIÇÃO"
+        "13º SAL", "PPR", "PROVENTOS",
+        "RENDA EX", "FERIAS", "SALARIO",
+        "V.A", "V.R"
     ],
     "Investimento": [
-        "AÇOES", "BITCOIN", "COMPRAR CAMERA", "COMPRAR CARRO",
-        "FAZER VIAGEM", "FUNDOS IMOBILIARIOS", "USDT"
+        "BITCOIN","USDT"
     ]
 };
 
@@ -91,44 +90,44 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+let transacoes = [];
+let paginaAtual = 1;
+const itensPorPagina = 15;
+
 async function carregarTransacoes() {
     const response = await fetch("/transacao/buscar");
-    const transacoes = await response.json();
+    transacoes = await response.json();
+    paginaAtual = 1; // Reinicia para a primeira página
+    exibirPagina(paginaAtual);
+    atualizarBotoesPaginacao();
+}
 
+function exibirPagina(pagina) {
     const tabela = document.getElementById("tabela-transacoes");
     tabela.innerHTML = "";
 
-    transacoes.forEach((transacao) => {
+    const inicio = (pagina - 1) * itensPorPagina;
+    const fim = inicio + itensPorPagina;
+    const transacoesPagina = transacoes.slice(inicio, fim);
+
+    transacoesPagina.forEach((transacao) => {
         const linha = document.createElement("tr");
-        
-        // Determinar a classe com base no tipo
+
         let classeTipo = '';
         switch(transacao.tipo.toLowerCase()) {
-            case 'despesa':
-                classeTipo = 'tipo-despesa';
-                break;
-            case 'receita':
-                classeTipo = 'tipo-receita';
-                break;
-            case 'investimento':
-                classeTipo = 'tipo-investimento';
-                break;
+            case 'despesa': classeTipo = 'tipo-despesa'; break;
+            case 'receita': classeTipo = 'tipo-receita'; break;
+            case 'investimento': classeTipo = 'tipo-investimento'; break;
         }
 
         let classeStatus = '';
-        switch(transacao.status.toUpperCase()) { // Alterado para toUpperCase()
-            case 'PENDENTE':
-                classeStatus = 'status-pendente';
-                break;
-            case 'PAGO':
-                classeStatus = 'status-pago';
-                break;
-            default:
-                classeStatus = ''; // Para valores inesperados
+        switch(transacao.status.toUpperCase()) {
+            case 'PENDENTE': classeStatus = 'status-pendente'; break;
+            case 'PAGO': classeStatus = 'status-pago'; break;
+            default: classeStatus = '';
         }
 
         linha.innerHTML = `
-            <td>${transacao.id}</td>
             <td>${transacao.data}</td>
             <td>${transacao.categoria}</td>
             <td><span class="${classeTipo}">${transacao.tipo}</span></td>
@@ -140,3 +139,77 @@ async function carregarTransacoes() {
         tabela.appendChild(linha);
     });
 }
+
+function atualizarBotoesPaginacao() {
+    const totalPaginas = Math.ceil(transacoes.length / itensPorPagina);
+    const paginacaoContainer = document.getElementById("paginacao");
+    paginacaoContainer.innerHTML = "";
+
+    // Cria a estrutura base do Bootstrap
+    const nav = document.createElement('nav');
+    const ul = document.createElement('ul');
+    ul.className = 'pagination justify-content-center'; // Centraliza a paginação
+    nav.appendChild(ul);
+
+    // Botão Anterior
+    const liAnterior = document.createElement('li');
+    liAnterior.className = `page-item ${paginaAtual === 1 ? 'disabled' : ''}`;
+    liAnterior.innerHTML = `
+        <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+        </a>
+    `;
+    liAnterior.querySelector('a').addEventListener('click', (e) => {
+        e.preventDefault();
+        if(paginaAtual > 1) {
+            paginaAtual--;
+            exibirPagina(paginaAtual);
+            atualizarBotoesPaginacao();
+        }
+    });
+    ul.appendChild(liAnterior);
+
+    // Números das páginas
+    for (let i = 1; i <= totalPaginas; i++) {
+        const li = document.createElement('li');
+        li.className = `page-item ${i === paginaAtual ? 'active' : ''}`;
+        const link = document.createElement('a');
+        link.className = 'page-link';
+        link.href = '#';
+        link.textContent = i;
+        
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            paginaAtual = i;
+            exibirPagina(paginaAtual);
+            atualizarBotoesPaginacao();
+        });
+
+        li.appendChild(link);
+        ul.appendChild(li);
+    }
+
+    // Botão Próximo
+    const liProximo = document.createElement('li');
+    liProximo.className = `page-item ${paginaAtual === totalPaginas ? 'disabled' : ''}`;
+    liProximo.innerHTML = `
+        <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+    `;
+    liProximo.querySelector('a').addEventListener('click', (e) => {
+        e.preventDefault();
+        if(paginaAtual < totalPaginas) {
+            paginaAtual++;
+            exibirPagina(paginaAtual);
+            atualizarBotoesPaginacao();
+        }
+    });
+    ul.appendChild(liProximo);
+
+    paginacaoContainer.appendChild(nav);
+}
+
+
+// Carregar as transações ao iniciar a página
+document.addEventListener("DOMContentLoaded", carregarTransacoes);

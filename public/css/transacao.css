@@ -8,7 +8,7 @@
   }
   
   .tipo-receita {
-    background-color: #156082; /* Cor do seu tema */
+    background-color: #17a2b8; /* Cor do seu tema */
     color: white !important;
     border-radius: 8px;
     padding: 4px 8px;
@@ -16,7 +16,7 @@
   }
   
   .tipo-investimento {
-    background-color: #17a2b8;
+    background-color: #ffc107;
     color: white !important;
     border-radius: 8px;
     padding: 4px 8px;
@@ -39,3 +39,23 @@
     padding: 4px 8px;
     display: inline-block;
   }
+
+  /* Estilo para a paginação ativa */
+.page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.page-link {
+    color: #007bff;
+}
+
+/* Estilo para hover */
+.page-link:hover {
+    color: #0056b3;
+}
+
+/* Estilo para disabled */
+.page-item.disabled .page-link {
+    color: #6c757d;
+}
